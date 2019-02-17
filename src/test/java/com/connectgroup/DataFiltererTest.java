@@ -33,6 +33,14 @@ public class DataFiltererTest {
     }
 
     @Test
+    public void canReturnEmptyCollectionIfCountyFilterFindsNothing() throws Exception {
+        Collection<DataEntry> dataEntries = (Collection<DataEntry>) DataFilterer
+                .filterByCountry(openFile("src/test/resources/multi-lines"), "TEST");
+
+        assertTrue(dataEntries.isEmpty());
+    }
+
+    @Test
     public void canParseEntriesAndFilterByCountryWithResponseAboveLimit() throws Exception {
         List<DataEntry> expectedDataEntries = new ArrayList<>();
         expectedDataEntries.add(new DataEntry(1433666287, "US", 789));
@@ -43,6 +51,14 @@ public class DataFiltererTest {
 
         assertThat(dataEntries.size(), is(2));
         assertTrue(dataEntries.containsAll(expectedDataEntries));
+    }
+
+    @Test
+    public void canReturnEmptyCollectionIfCountyAndResponseFilterFindsNothing() throws Exception {
+        Collection<DataEntry> dataEntries = (Collection<DataEntry>) DataFilterer
+                .filterByCountryWithResponseTimeAboveLimit(openFile("src/test/resources/multi-lines"), "TEST", 1000);
+
+        assertTrue(dataEntries.isEmpty());
     }
 
     @Test
@@ -57,6 +73,14 @@ public class DataFiltererTest {
 
         assertThat(dataEntries.size(), is(3));
         assertTrue(dataEntries.containsAll(expectedDataEntries));
+    }
+
+    @Test
+    public void canReturnEmptyCollectionIfAverageResponseFilterFindsNothing() throws Exception {
+        Collection<DataEntry> dataEntries = (Collection<DataEntry>) DataFilterer
+                .filterByResponseTimeAboveAverage(openFile("src/test/resources/single-line"));
+
+        assertTrue(dataEntries.isEmpty());
     }
 
     private FileReader openFile(String filename) throws FileNotFoundException {
