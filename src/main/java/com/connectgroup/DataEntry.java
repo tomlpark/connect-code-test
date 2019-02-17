@@ -24,24 +24,12 @@ public class DataEntry implements Comparable<DataEntry> {
         return timestamp;
     }
 
-    public void setTimestamp(Integer timestamp) {
-        this.timestamp = timestamp;
-    }
-
     public String getCountryCode() {
         return countryCode;
     }
 
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
-    }
-
     public Integer getResponseTime() {
         return responseTime;
-    }
-
-    public void setResponseTime(Integer responseTime) {
-        this.responseTime = responseTime;
     }
 
     @Override
