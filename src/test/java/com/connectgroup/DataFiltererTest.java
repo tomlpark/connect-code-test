@@ -32,6 +32,33 @@ public class DataFiltererTest {
         assertTrue(dataEntries.containsAll(expectedDataEntries));
     }
 
+    @Test
+    public void canParseEntriesAndFilterByCountryWithResponseAboveLimit() throws Exception {
+        List<DataEntry> expectedDataEntries = new ArrayList<>();
+        expectedDataEntries.add(new DataEntry(1433666287, "US", 789));
+        expectedDataEntries.add(new DataEntry(1432484176, "US", 850));
+
+        Collection<DataEntry> dataEntries = (Collection<DataEntry>) DataFilterer
+                .filterByCountryWithResponseTimeAboveLimit(openFile("src/test/resources/multi-lines"), "US", 600);
+
+        assertThat(dataEntries.size(), is(2));
+        assertTrue(dataEntries.containsAll(expectedDataEntries));
+    }
+
+    @Test
+    public void canParseEntriesAndFilterResponseAboveAverage() throws Exception {
+        List<DataEntry> expectedDataEntries = new ArrayList<>();
+        expectedDataEntries.add(new DataEntry(1433190845, "US", 539));
+        expectedDataEntries.add(new DataEntry(1433666287, "US", 789));
+        expectedDataEntries.add(new DataEntry(1432484176, "US", 850));
+
+        Collection<DataEntry> dataEntries = (Collection<DataEntry>) DataFilterer
+                .filterByResponseTimeAboveAverage(openFile("src/test/resources/multi-lines"));
+
+        assertThat(dataEntries.size(), is(3));
+        assertTrue(dataEntries.containsAll(expectedDataEntries));
+    }
+
     private FileReader openFile(String filename) throws FileNotFoundException {
         return new FileReader(new File(filename));
     }

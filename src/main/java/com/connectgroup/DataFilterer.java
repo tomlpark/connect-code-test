@@ -28,11 +28,32 @@ public class DataFilterer {
     }
 
     public static Collection<?> filterByCountryWithResponseTimeAboveLimit(Reader source, String country, long limit) {
+        try {
+            return parseDataSource(source).stream()
+                    .filter(e -> e.getCountryCode().equals(country))
+                    .filter(e -> e.getResponseTime() > limit)
+                    .collect(Collectors.toList());
+        } catch (DataFiltererParseException e) {
+            // todo: log this properly to a log file
+            e.printStackTrace();
+        }
 
         return Collections.emptyList();
     }
 
     public static Collection<?> filterByResponseTimeAboveAverage(Reader source) {
+        try {
+            Collection<DataEntry> dataEntries = parseDataSource(source);
+            Double averageResponseTime = dataEntries.stream()
+                    .collect(Collectors.averagingInt(DataEntry::getResponseTime));
+
+            return dataEntries.stream()
+                    .filter(e -> e.getResponseTime() > averageResponseTime)
+                    .collect(Collectors.toList());
+        } catch (DataFiltererParseException e) {
+            // todo: log this properly to a log file
+            e.printStackTrace();
+        }
 
         return Collections.emptyList();
     }
