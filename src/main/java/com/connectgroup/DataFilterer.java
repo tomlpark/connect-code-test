@@ -58,6 +58,12 @@ public class DataFilterer {
         return Collections.emptyList();
     }
 
+    /**
+     * Parses the log file into a collection of DataEntry objects representing each log line
+     * @param source the source to parse
+     * @return The collection of DataEntry objects found
+     * @throws DataFiltererParseException
+     */
     private static Collection<DataEntry> parseDataSource(Reader source) throws DataFiltererParseException {
         String line;
         List<DataEntry> parsedDataEntries = new ArrayList<>();
